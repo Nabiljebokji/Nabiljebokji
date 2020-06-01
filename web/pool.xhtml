@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="js" name="jquery-3.3.1.min.js"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <h:form>  
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <li class="nav-item">
+                                    <h:commandLink styleClass="nav-link" action="logout" value="logout"/>
+                                </li>
+                                <h:commandLink styleClass="nav-link" action="/manager?faces-redirect=true" value="manager"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/supervisor?faces-redirect=true" value="supervisor"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/blok?faces-redirect=true" value="blok"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/home?faces-redirect=true" value="home"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/people?faces-redirect=true" value="people"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/worker?faces-redirect=true" value="worker"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/play?faces-redirect=true" value="play_ground"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/pool?faces-redirect=true" value="swimming_pool"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/work_type?faces-redirect=true" value="work_type"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="document" value="Documents"/>
+                            </li>
+                        </ul> 
+                    </h:form>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h:form id="swimming-pool-table">
+                        <h:dataTable styleClass=" table table-striped table-hover" value="#{poolcontroller.poollist}" var="pool">
+                            <h:column>
+                                <f:facet name="header">id_pool</f:facet>
+                                <h:commandLink action="#{poolcontroller.updateForm(pool)}" value=" #{pool.id_pool}">
+                                    <f:ajax execute="@this" render="swimming_pool-form"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">length</f:facet>
+                                <h:commandLink action="#{poolcontroller.updateForm(pool)}" value="#{pool.length}">
+                                    <f:ajax execute="@this" render="swimming_pool-form"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">width</f:facet>
+                                <h:commandLink action="#{poolcontroller.updateForm(pool)}" value="#{pool.width}">
+                                    <f:ajax execute="@this" render="swimming_pool-form"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">depth</f:facet>
+                                <h:commandLink action="#{poolcontroller.updateForm(pool)}" value="#{pool.depth}">
+                                    <f:ajax execute="@this" render="swimming_pool-form"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">DELETE</f:facet>
+
+                                <h:commandButton  onclick="$('.modal').modal('show')" styleClass="btn btn-sm btn-danger" value="Delete" action="#{poolcontroller.deleteConfirm(pool)}">
+                                    <f:ajax execute="@this" render="delete-modal"/>
+                                </h:commandButton>
+                            </h:column>
+                        </h:dataTable> 
+                    </h:form>
+                    <div class="col-md-6">
+                        <h:form id="swimming_pool-form">
+                            <div class="form-group"> 
+                                <label for="inputName">id_pool</label>
+                                <h:inputText  class="form-control" value="#{poolcontroller.pool.id_pool}"/>
+                            </div>
+                            <div class="form-group"> 
+                                <label for="inputName">length</label>
+                                <h:inputText  class="form-control" value="#{poolcontroller.pool.length}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName">width</label>
+                                <h:inputText  class="form-control" value="#{poolcontroller.pool.width}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName">depth</label>
+                                <h:inputText  class="form-control" value="#{poolcontroller.pool.depth}"/>
+                            </div>
+                            <div class="form-group">
+                                <div  class="btn-group">
+                                    <h:commandButton  rendered="#{poolcontroller.pool.id_pool !=null}" styleClass="btn btn-info" value="update" action="#{poolcontroller.update()}">
+                                        <f:ajax execute="swimming_pool-form" render="swimming_pool-form swimming_pool-table"/>
+                                    </h:commandButton>
+                                    <h:commandButton rendered="#{poolcontroller.pool.id_pool==null}" styleClass="btn btn-primary" value="create" action="#{poolcontroller.create()}">
+                                        <f:ajax execute="swimming_pool-form" render="swimmimng_pool-form swimming_pool-table"/>
+                                    </h:commandButton>
+                                    <h:commandButton rendered="#{poolcontroller.pool.id_pool !=null}" styleClass="btn btn-secondary" value="clear Form" action="#{poolcontroller.clearForm()}">
+                                        <f:ajax execute="swimming_pool-form" render="swimming_pool-form swimming_pool-table"/>
+                                    </h:commandButton>
+                                </div>  
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>           
+            <div class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <h:panelGroup layout="block" class="modal-content" id="delete-modal">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                Are you sure to delete pool object? <br />                              
+                                <b>pool ID:</b> #{poolcontroller.pool.id_pool}<br/>
+                                <b>poollength:</b> #{poolcontroller.pool.length}<br/>
+                                <b>widthe:</b> #{poolcontroller.pool.width}<br/>
+                                <b>depth:</b> #{poolcontroller.pool.depth}<br/>
+
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <h:form>
+                                <h:commandButton  onclick="$('.modal').modal('hide')" action="#{poolcontroller.deleteConfirm(pool)}" value="confirm" styleClass="btn btn-danger">
+                                    <f:ajax execute="@this" render="swimming_pool-table swimming_pool-form"/>
+                                </h:commandButton>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+                            </h:form> 
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html> 

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>work type</title>
+        <h:outputStylesheet library ="css" name="bootstrap.css"/>
+        <h:outputStylesheet library ="js" name="bootstrap.js"/>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <h:form>  
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <li class="nav-item">
+                                    <h:commandLink styleClass="nav-link" action="logout" value="logout"/>
+                                </li>
+                                <h:commandLink styleClass="nav-link" action="/manager?faces-redirect=true" value="manager"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/supervisor?faces-redirect=true" value="supervisor"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/blok?faces-redirect=true" value="blok"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/home?faces-redirect=true" value="home"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/people?faces-redirect=true" value="people"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/worker?faces-redirect=true" value="worker"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/play?faces-redirect=true" value="play_ground"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/pool?faces-redirect=true" value="swimming_pool"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/work_type?faces-redirect=true" value="work_type"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="document" value="Documents"/>
+                            </li>
+                        </ul> 
+                    </h:form>
+                </div>
+            </nav>
+        </div>
+        <div class="container ">
+            <div class="row">
+                <div class="col-md-7">
+                    <h:form id="category-table" >
+                        <h:dataTable class=" table table-striped" value="#{work_typeController.CList}" var="cat">
+                            <h:column >
+                                <f:facet name="header">ID</f:facet>
+                                    #{cat.id_work_type}
+                            </h:column>
+                            <h:column >
+                                <f:facet name="header">work_type</f:facet>
+                                <h:commandLink action="#{work_typeController.updateFrom(cat)}" value="#{cat.work_type}">
+                                    <f:ajax execute="@this" render="category-form"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column >
+                                <f:facet name="header">Delete</f:facet>
+                                <h:commandButton  onclick="$('.modal').modal('show')" class="btn btn-sm btn-danger" value="Delete" action="#{work_typeController.delete(cat)}">
+                                    <f:ajax execute="@this" render="delete-model" />
+                                </h:commandButton>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </div>
+                <div class="col-md-5">
+                    <h:form id ="category-form">
+                        <div class="form-group">
+
+                            <h:inputHidden value="#{work_typeController.category.id_work_type}"/>
+
+                            <label for="input Name">id work type:</label>
+                            <h:inputText styleClass="form-control" value="#{work_typeController.category.id_work_type}"/>
+
+                            <label for="input Name">work type :</label>
+                            <h:inputText styleClass="form-control" value="#{work_typeController.category.work_type}"/>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="btn-group">
+                                <h:commandButton  class="btn btn-info" value="Update" action="#{work_typeController.update()}">
+                                    <f:ajax execute="category-form" render="category-form category-table"/>
+                                </h:commandButton>
+                                <h:commandButton  class="btn btn-primary" value="Create" action="#{work_typeController.create()}">
+                                    <f:ajax execute="category-form" render="category-form category-table"/>
+                                </h:commandButton>
+
+                            </div>
+                        </div>                
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

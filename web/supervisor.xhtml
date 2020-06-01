@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="js" name="jquery-3.3.1.min.js"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                     <h:form>  
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <li class="nav-item">
+                                    <h:commandLink styleClass="nav-link" action="logout" value="logout"/>
+                                </li>
+                                <h:commandLink styleClass="nav-link" action="/manager?faces-redirect=true" value="manager"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/supervisor?faces-redirect=true" value="supervisor"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/blok?faces-redirect=true" value="blok"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/home?faces-redirect=true" value="home"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/people?faces-redirect=true" value="people"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/worker?faces-redirect=true" value="worker"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/play?faces-redirect=true" value="play_ground"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/pool?faces-redirect=true" value="swimming_pool"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="/work_type?faces-redirect=true" value="work_type"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="document" value="Documents"/>
+                            </li>
+                        </ul> 
+                    </h:form>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h:form id="supervisor-table">
+                        <h:dataTable styleClass=" table table-striped table-hover" value="#{supercontroller.superlist}" var="s">
+                            <h:column>
+                                <f:facet name="header">id_supervisor</f:facet>
+                                <h:commandLink action="#{supercontroller.updateForm(s)}" value="#{s.id_supervisor}">
+                                    <f:ajax execute="@this" render="supervisor-form"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">name</f:facet>
+                                    #{s.name}
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">last_name</f:facet>
+                                    #{s.last_name}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">manager</f:facet>
+                                    #{s.manager.name}
+                            </h:column>
+
+
+                        </h:dataTable> 
+                    </h:form>
+                    <div class="col-md-6">
+                        <h:form id="supervisor-form">
+                            <div class="form-group">
+                                <label for="inputName">id_supervisor</label>
+                                <h:inputText  class="form-control" value="#{supercontroller.supervisor.id_supervisor}"/>
+                                <label for="inputName">Name</label>
+                                <h:inputText  class="form-control" value="#{supercontroller.supervisor.name}"/>
+                                <label for="inputName">last_name</label>
+                                <h:inputText  class="form-control" value="#{supercontroller.supervisor.last_name}"/>
+                                <div class="col-md-5">
+                                    <h:form>
+                                        <div class="from-group">
+                                            <label for="selectmanager">manager_id</label>
+                                            <h:selectOneMenu styleClass="custom-select" id="selectmanager" value="#{supercontroller.selectedmanager}">
+                                                <f:selectItems value="#{supercontroller.managerlist}" var="manager" itemValue="#{manager.id_manager}" itemLabel="#{manager.name}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </h:form>
+                                </div>
+                                <div class="form-group">
+                                    <div class="btn-group">
+                                        <h:commandButton  rendered="#{supercontroller.supervisor.id_supervisor!=null}" styleClass="btn btn-info" value="update" action="#{supercontroller.update()}">
+                                            <f:ajax execute="supervisor-form" render="supervisor-form supervisor-table"/>
+                                        </h:commandButton>
+                                        <h:commandButton rendered="#{supercontroller.supervisor.id_supervisor==null}" styleClass="btn btn-primary" value="create" action="#{supercontroller.create()}">
+                                            <f:ajax execute="supervisor-form" render="supervisor-form supervisor-table"/>
+                                        </h:commandButton>
+                                        <h:commandButton rendered="#{supercontroller.supervisor.id_supervisor!=null}" styleClass="btn btn-secondary" value="clear Form" action="#{supercontroller.clearForm()}">
+                                            <f:ajax execute="supervisor-form" render="supervisor-form supervisor-table"/>
+
+                                        </h:commandButton>
+                                        <h:commandButton  styleClass="btn btn-sm btn-danger" value="Delete" action="#{supercontroller.delete()}"/>
+                                    </div>  
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>           
+        </div>
+    </h:body>
+</html>
+
